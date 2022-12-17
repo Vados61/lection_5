@@ -1,3 +1,5 @@
+import os
+
 from selene import be, have
 from selene.support.shared import browser
 
@@ -44,13 +46,20 @@ def test_hobbies_check_box():
     browser.element('label[for=hobbies-checkbox-3]').click()
 
 
+def test_upload_pocture():
+    browser.element('#uploadPicture').set_value(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'media/123.jpeg'))
+    )
+
+
 def test_input_current_address():
     browser.element('#currentAddress').type('7th planet, 2d star of 234th galaxy')
     browser.element('#currentAddress').should(have.value('7th planet, 2d star of 234th galaxy'))
 
 
-# def test_city_input():
-#     browser.element('#state').click()
+def test_city_input():
+    browser.element('#react-select-3-input').type('NCR').press_enter()
+    browser.element('#react-select-4-input').type('Delhi').press_enter()
 
 
 def test_submit_button():
@@ -66,9 +75,9 @@ def test_review_results():
         'Date of Birth 15 June,2100',
         'Subjects Arts, Maths, Computer Science',
         'Hobbies Music',
-        'Picture',
+        'Picture 123.jpeg',
         'Address 7th planet, 2d star of 234th galaxy',
-        'State and City'
+        'State and City NCR Delhi'
     ]
     browser.all('.modal-body tbody tr').should(have.exact_texts(review_list))
     browser.element('#closeLargeModal').click()
