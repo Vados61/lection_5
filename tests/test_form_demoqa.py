@@ -30,8 +30,8 @@ def test_input_date_of_birth():
     browser.element('#dateOfBirthInput').click()
     browser.element('.react-datepicker__month-select>option[value="5"]').click()
     browser.element('.react-datepicker__year-select>option[value="2100"]').click()
-    browser.element('.react-datepicker__day--015').click()
-    browser.element('#dateOfBirthInput').should(have.value('15 Jun 2100'))
+    browser.element('.react-datepicker__day--030:not(.react-datepicker__day--outside-month)').click()
+    browser.element('#dateOfBirthInput').should(have.value('30 Jun 2100'))
 
 
 def test_subjects_input():
@@ -46,7 +46,7 @@ def test_hobbies_check_box():
     browser.element('label[for=hobbies-checkbox-3]').click()
 
 
-def test_upload_pocture():
+def test_upload_picture():
     browser.element('#uploadPicture').set_value(
         os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'media/123.jpeg'))
     )
@@ -72,7 +72,7 @@ def test_review_results():
         'Student Email dartic-martic@starwars.com',
         'Gender Male',
         'Mobile 8005553555',
-        'Date of Birth 15 June,2100',
+        'Date of Birth 30 June,2100',
         'Subjects Arts, Maths, Computer Science',
         'Hobbies Music',
         'Picture 123.jpeg',
