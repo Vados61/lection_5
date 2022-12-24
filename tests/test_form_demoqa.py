@@ -9,7 +9,7 @@ from demoqa import practise_form
 @allure.severity(Severity.NORMAL)
 @allure.label('owner', 'Vados61')
 @allure.feature('Проверка правильности заполнения формы студента')
-@allure.link('https://github.com', name='Practise-form')
+@allure.link('https://demoqa.com/automation-practice-form', name='Practise-form')
 def test_practis_form():
     with allure.step('Открываем страницу заполнения формы'):
         browser.open('https://demoqa.com/automation-practice-form')
