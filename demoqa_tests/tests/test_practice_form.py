@@ -2,7 +2,7 @@ import allure
 from allure_commons.types import Severity
 
 from selene.support.shared import browser
-from demoqa import practise_form
+from demoqa_tests.model.page import practise_form
 
 
 @allure.tag('web')
