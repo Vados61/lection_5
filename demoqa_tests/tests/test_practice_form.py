@@ -1,8 +1,10 @@
+from datetime import date
+
 import allure
 from allure_commons.types import Severity
 
-from selene.support.shared import browser
-from demoqa_tests.model.page import practise_form
+from demoqa_tests.model.pages import practise_form
+from demoqa_tests.model.user import Student
 
 
 @allure.tag('web')
@@ -10,52 +12,55 @@ from demoqa_tests.model.page import practise_form
 @allure.label('owner', 'Vados61')
 @allure.feature('Проверка правильности заполнения формы студента')
 @allure.link('https://demoqa.com/automation-practice-form', name='Practise-form')
-def test_practis_form():
+def test_filling_form():
+    form_page = practise_form.Page()
+    student = Student(
+        first_name='Dart',
+        last_name='Weider',
+        email='dartic-martic@starwars.com',
+        gender='Male',
+        phone_number=8005553555,
+        image='123.jpeg',
+        subjects=('Arts', 'Maths', 'Computer Science'),
+        hobbies=('Reading', 'Music'),
+        address='7th planet, 2d star of 234th galaxy',
+        state='NCR',
+        city='Delhi',
+        date_of_birth=date(2100, 3, 15)
+    )
     with allure.step('Открываем страницу заполнения формы'):
-        browser.open('https://demoqa.com/automation-practice-form')
+        form_page.open()
 
     with allure.step('Заполняем имя и фамилию'):
-        practise_form.type_name('Dart')
-        practise_form.type_last_name('Weider')
-
+        form_page.set_name(first_name=student.first_name, last_name=student.last_name)
     with allure.step('Заполняем почту'):
-        practise_form.type_email('dartic-martic@starwars.com')
-
+        form_page.set_email(student.email)
     with allure.step('Выбираем пол'):
-        practise_form.choose_gender('Male')
-
+        form_page.set_gender(student.gender)
     with allure.step('Заполняем телефон'):
-        practise_form.type_phone('8005553555')
-
-    with allure.step('Выставляем дату рождения'):
-        practise_form.choose_date_of_birth(day=15, month='May', year=2100)
-
+        form_page.set_phone(student.phone_number)
     with allure.step('Выбираем предметы'):
-        subjects_list = 'Arts', 'Maths', 'Computer Science'
-        practise_form.choose_sabjects(subjects_list)
-
+        form_page.set_subjects(student.subjects)
     with allure.step('Выбираем хобби'):
-        practise_form.choose_hobbies(['Reading', 'Music'])
-
+        form_page.set_hobbies(student.hobbies)
     with allure.step('Выбираем фото из папки media'):
-        practise_form.choose_photo('123.jpeg')
-
+        form_page.set_picture(student.image)
     with allure.step('Заполняем адрес'):
-        practise_form.type_adress('7th planet, 2d star of 234th galaxy')
-
+        form_page.set_address(student.address)
+    with allure.step('Выставляем дату рождения'):
+        form_page.set_date_of_birth(student.date_of_birth)
     with allure.step('Выбираем штат и город'):
-        practise_form.choose_state_and_city(state='NCR', city='Delhi')
+        form_page.set_location(state=student.state, city=student.city)
 
     with allure.step('Сличаем данные из формы с исходными'):
-        test_data = [
-            'Dart Weider',
-            'dartic-martic@starwars.com',
-            'Male', '8005553555',
-            '15 May,2100',
-            'Arts, Maths, Computer Science',
-            'Reading, Music',
-            '123.jpeg',
-            '7th planet, 2d star of 234th galaxy',
-            'NCR Delhi'
-        ]
-        practise_form.check_submit_data(test_data)
+        form_page.check_submit_data(student)
+
+
+
+
+
+
+
+
+
+

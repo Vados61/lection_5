@@ -3,6 +3,8 @@ from selene.support.shared import browser
 from selene.support.shared.jquery_style import s, ss
 
 from demoqa_tests.media import path_to_file
+from demoqa_tests.model.user import Student
+from demoqa_tests.model.utils import react_datepicker, config
 
 
 class Page:
@@ -19,8 +21,8 @@ class Page:
         self.city_fild = s('#react-select-4-input')
         self.submit_element = s('#submit')
         self.subjects_fild = s('#subjectsInput')
-        self.gender_filds = ss('#genterWrapper label')
-        self.hobbies_filds = ss('#hobbiesWrapper label')
+        self.gender_fields = ss('#genterWrapper label')
+        self.hobbies_fields = ss('#hobbiesWrapper label')
         self.date_of_birth_fild = s('#dateOfBirthInput')
 
     def open(self):
@@ -43,8 +45,8 @@ class Page:
         self.address_fild.set_value(address)
 
     def set_location(self, state, city):
-        self.state_fild.set_value(state)
-        self.city_fild.set_value(city)
+        self.state_fild.set_value(state).press_enter()
+        self.city_fild.set_value(city).press_enter()
 
     def submit(self):
         self.submit_element.press_enter()
@@ -53,24 +55,27 @@ class Page:
         for subject in subjects:
             self.subjects_fild.type(subject).press_enter()
 
-    def choose_gender(self, gender):
-        self.gender_filds.element_by(have.text(gender)).click()
+    def set_gender(self, gender):
+        self.gender_fields.element_by(have.text(gender)).click()
 
-    def choose_hobbies(self, hobbies):
+    def set_hobbies(self, hobbies):
         for hobbi in hobbies:
-            self.hobbies_filds.element_by(have.text(hobbi)).click()
+            self.hobbies_fields.element_by(have.text(hobbi)).click()
 
+    def set_date_of_birth(self, date):
+        react_datepicker.set_date('#dateOfBirthInput', date)
 
-
-def choose_date_of_birth(day, month, year):
-    s('#dateOfBirthInput').click()
-    ss('.react-datepicker__month-select>option').element_by(have.text(month)).click()
-    s(f'.react-datepicker__year-select').send_keys(year)
-    s(f'.react-datepicker__day--0{day}:not(.react-datepicker__day--outside-month)').click()
-
-
-
-
-
-def check_submit_data(test_data):
-    ss('.table').all('td').even.should(have.exact_texts(test_data))
+    def check_submit_data(self, user: Student):
+        self.submit_element.press_enter()
+        ss('.table').all('td').even.should(have.exact_texts(
+            f'{user.first_name} {user.last_name}',
+            user.email,
+            user.gender,
+            str(user.phone_number),
+            user.date_of_birth.strftime(config.datetime_view_format),
+            ', '.join(user.subjects),
+            ', '.join(user.hobbies),
+            user.image,
+            user.address,
+            f'{user.state} {user.city}',
+        ))
