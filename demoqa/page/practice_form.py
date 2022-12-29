@@ -1,7 +1,8 @@
 from selene import have
 from selene.support.shared.jquery_style import s, ss
 
-from demoqa.utils import media_path
+from demoqa import media
+from demoqa.utils import react_datepicker
 
 
 def type_name(name):
@@ -25,10 +26,7 @@ def type_phone(phone):
 
 
 def choose_date_of_birth(day, month, year):
-    s('#dateOfBirthInput').click()
-    ss('.react-datepicker__month-select>option').element_by(have.text(month)).click()
-    s(f'.react-datepicker__year-select').send_keys(year)
-    s(f'.react-datepicker__day--0{day}:not(.react-datepicker__day--outside-month)').click()
+    react_datepicker.set_date('#dateOfBirthInput', day, month, year)
 
 
 def choose_sabjects(subjects_list):
@@ -42,7 +40,7 @@ def choose_hobbies(hobbies):
 
 
 def choose_photo(file_name):
-    s('#uploadPicture').set_value(media_path(file_name))
+    s('#uploadPicture').set_value(media.path(file_name))
 
 
 def type_adress(adress):
