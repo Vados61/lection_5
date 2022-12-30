@@ -2,7 +2,7 @@ from selene import have
 from selene.support.shared.jquery_style import s, ss
 
 from demoqa import media
-from demoqa.utils import react_datepicker
+from demoqa.controls import react_datepicker
 
 
 def type_name(name):
