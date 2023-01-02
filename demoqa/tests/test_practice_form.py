@@ -10,7 +10,7 @@ from demoqa.page import practice_form
 @allure.label('owner', 'Vados61')
 @allure.feature('Проверка правильности заполнения формы студента')
 @allure.link('https://demoqa.com/automation-practice-form', name='Practise-form')
-def test_practis_form():
+def test_practice_form():
     with allure.step('Открываем страницу заполнения формы'):
         browser.open('https://demoqa.com/automation-practice-form')
 
@@ -33,7 +33,7 @@ def test_practis_form():
     with allure.step('Выбираем фото из папки media'):
         practice_form.choose_photo('123.jpeg')
     with allure.step('Заполняем адрес'):
-        practice_form.type_adress('7th planet, 2d star of 234th galaxy')
+        practice_form.type_address('7th planet, 2d star of 234th galaxy')
     with allure.step('Выбираем штат и город'):
         practice_form.choose_state_and_city(state='NCR', city='Delhi')
 
